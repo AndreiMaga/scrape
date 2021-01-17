@@ -1,14 +1,14 @@
 import { Browser, Page } from 'puppeteer'
 import { log } from './logger'
 
-export interface IJobProps {
+interface IJobProps {
   name: string
   waitForSelector: string
   evalSelector: string
   eval_callback: string
 }
 
-export interface ICallbackProps {
+interface ICallbackProps {
   name: string
   function: string
 }
@@ -21,7 +21,7 @@ export interface IScraperProps {
   newpage?: boolean
 }
 
-export interface IResultProps {
+interface IResultProps {
   name: string
   result: string[]
 }
