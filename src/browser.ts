@@ -1,6 +1,6 @@
 import { launch, Browser } from 'puppeteer'
 
-export async function startBrowser(): Promise<Browser | undefined> {
+export async function startBrowser(): Promise<Browser> {
   let browser: Browser
   try {
     browser = await launch({
@@ -13,5 +13,5 @@ export async function startBrowser(): Promise<Browser | undefined> {
   } catch (err) {
     console.error(err)
   }
-  return undefined
+  return Promise.reject()
 }

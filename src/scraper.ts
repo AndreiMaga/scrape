@@ -1,18 +1,25 @@
 import { Browser, Page } from 'puppeteer'
 import { log } from './logger'
-import { Bar, Presets } from 'cli-progress'
-import { Color } from 'colors'
+
 export interface IJobProps {
   name: string
   waitForSelector: string
   evalSelector: string
-  eval_callback: (links: Element[]) => string[]
+  // eval_callback: (links: Element[]) => string[]
+  eval_callback: string
+}
+
+export interface ICallbackProps {
+  name: string
+  function: string
 }
 
 export interface IScraperProps {
   url: string
   browser?: Browser
   jobs: IJobProps[]
+  callbacks: ICallbackProps[]
+  newpage?: boolean
 }
 
 export interface IResultProps {
@@ -22,29 +29,36 @@ export interface IResultProps {
 
 export class Scraper {
   props: IScraperProps
-  bar: Bar
   constructor(props: IScraperProps) {
     this.props = props
-    this.bar = new Bar({
-      format:
-        'Progress |' + '{bar}'.cyan + '| {percentage}% || {value}/{total} Jobs',
-      fps: 120,
-      barCompleteChar: '█',
-      barIncompleteChar: ' '
+    this.registerCallbacks()
+  }
+
+  private registerCallbacks() {
+    this.props.callbacks.forEach((c) => {
+      global.eval(c.function)
     })
   }
 
   async scrapeAllJobs() {
-    this.bar.start(this.props.jobs.length, 0, { speed: 'N/A' })
-
-    let pages = await this.props.browser?.pages()
-
-    if (pages === undefined) {
+    if (this.props.browser === undefined) {
       return
     }
-    let page = pages[0]
+
+    let page: Page
+
+    if (this.props.newpage === undefined) {
+      // this will never happen
+      return
+    }
+
+    page =
+      this.props.newpage === true
+        ? await this.props.browser.newPage()
+        : (await this.props.browser.pages())[0]
+
     log.debug('Waiting to navigate to', this.props.url)
-    await page?.goto(this.props.url)
+    await page.goto(this.props.url)
 
     let result: IResultProps[] = []
     log.debug('Starting the jobs!')
@@ -53,7 +67,6 @@ export class Scraper {
       this.props.jobs.map(async (job) => {
         log.debug('Started job', job.name)
         let res = await this.scrape(job, page)
-        this.bar.increment()
         if (res === undefined) {
           return
         }
@@ -62,7 +75,6 @@ export class Scraper {
       })
     )
 
-    this.bar.stop()
     return result
   }
 
@@ -73,7 +85,10 @@ export class Scraper {
     log.debug('Waiting for', job.name)
     await page.waitForSelector(job.waitForSelector)
     log.debug('Finished waiting for', job.name)
-    let urls = await page.$$eval(job.evalSelector, job.eval_callback)
+    let urls = await page.$$eval(
+      job.evalSelector,
+      <(links: Element[]) => string[]>eval(job.eval_callback)
+    )
 
     log.debug('Got the result for', job.name)
 

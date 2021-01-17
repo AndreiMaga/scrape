@@ -1,0 +1,17 @@
+{
+  "url": "https://books.toscrape.com",
+  "callbacks": [
+    {
+      "name": "callback",
+      "function": "function callback(links){return links.filter((link) => link?.querySelector('.instock.availability > i')?.textContent !== 'In stock').map((el) => (el?.querySelector('h3 > a'))?.href)}"
+    }
+  ],
+  "jobs": [
+    {
+      "name": "books",
+      "waitForSelector": ".page_inner",
+      "evalSelector": "section ol > li",
+      "eval_callback": "callback"
+    }
+  ]
+}
