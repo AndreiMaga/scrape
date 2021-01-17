@@ -1,5 +1,8 @@
 import { launch, Browser } from 'puppeteer'
 
+/**
+ * Start a browser instance
+ */
 export async function startBrowser(): Promise<Browser> {
   let browser: Browser
   try {
