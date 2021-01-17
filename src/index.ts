@@ -1,16 +1,16 @@
 import { log } from './logger'
-import { IJobProps, IScraperProps, Scraper } from './scraper'
-import * as fs from 'fs'
+import { IScraperProps, Scraper } from './scraper'
+import { readdir, readFileSync } from 'fs'
 import { startBrowser } from './browser'
 
 const scrapingConfigsDirectory = 'scrapingConfigs'
 
 startBrowser()
   .then((browser) => {
-    fs.readdir(scrapingConfigsDirectory, async (err, files) => {
+    readdir(scrapingConfigsDirectory, async (err, files) => {
       await Promise.all(
         files.map(async (files, index) => {
-          let str = fs.readFileSync(
+          let str = readFileSync(
             scrapingConfigsDirectory + '/' + files,
             'utf-8'
           )

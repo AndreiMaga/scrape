@@ -5,7 +5,6 @@ export interface IJobProps {
   name: string
   waitForSelector: string
   evalSelector: string
-  // eval_callback: (links: Element[]) => string[]
   eval_callback: string
 }
 
