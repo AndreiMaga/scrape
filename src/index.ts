@@ -1,4 +1,3 @@
-import { log } from './logger'
 import { IScraperProps, Scraper } from './scraper'
 import { readdir, readFileSync } from 'fs'
 import { startBrowser } from './browser'
@@ -21,7 +20,7 @@ startBrowser().then((browser) => {
         }
 
         res.forEach((e) => {
-          log.info(e)
+          console.log(JSON.stringify(e))
         })
       })
     )

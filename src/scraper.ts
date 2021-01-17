@@ -1,5 +1,4 @@
 import { Browser, Page } from 'puppeteer'
-import { log } from './logger'
 
 interface IJobProps {
   name: string
@@ -56,20 +55,16 @@ export class Scraper {
         ? await this.props.browser.newPage()
         : (await this.props.browser.pages())[0]
 
-    log.debug('Waiting to navigate to', this.props.url)
     await page.goto(this.props.url)
 
     let result: IResultProps[] = []
-    log.debug('Starting the jobs!')
 
     await Promise.all(
       this.props.jobs.map(async (job) => {
-        log.debug('Started job', job.name)
         let res = await this.scrape(job, page)
         if (res === undefined) {
           return
         }
-        log.debug('Recieved the result for', job.name)
         result.push({ name: job.name, result: res })
       })
     )
@@ -81,15 +76,11 @@ export class Scraper {
     job: IJobProps,
     page: Page
   ): Promise<string[] | undefined> {
-    log.debug('Waiting for', job.name)
     await page.waitForSelector(job.waitForSelector)
-    log.debug('Finished waiting for', job.name)
     let urls = await page.$$eval(
       job.evalSelector,
       <(links: Element[]) => string[]>eval(job.eval_callback)
     )
-
-    log.debug('Got the result for', job.name)
 
     return urls
   }
