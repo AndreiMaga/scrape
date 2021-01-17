@@ -1,4 +1,4 @@
-# Scrape Can't Replace APEs
+# Scrapers Can't Replace APEs
 
 Scrape is a simple tool that will scrape any website (without login at the moment) just by using a [config](scrapingConfigs/books.toscrape.json) for that website.
 
