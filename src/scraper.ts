@@ -8,7 +8,6 @@ interface IJobProps {
 }
 
 interface ICallbackProps {
-  name: string
   function: string
 }
 
@@ -39,25 +38,26 @@ export class Scraper {
   }
 
   async scrapeAllJobs() {
-    if (this.props.browser === undefined) {
+    if (this.props.browser === undefined || this.props.newpage === undefined) {
       return
     }
 
-    let page: Page
-
-    if (this.props.newpage === undefined) {
-      // this will never happen
-      return
-    }
-
-    page =
+    let page =
       this.props.newpage === true
         ? await this.props.browser.newPage()
         : (await this.props.browser.pages())[0]
 
-    await page.goto(this.props.url)
-
     let result: IResultProps[] = []
+    let response = await page.goto(this.props.url)
+
+    if (response === undefined || response?.status() !== 200) {
+      return [
+        {
+          name: 'error',
+          result: ['url:' + this.props.url, response?.statusText()]
+        }
+      ]
+    }
 
     await Promise.all(
       this.props.jobs.map(async (job) => {

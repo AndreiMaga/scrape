@@ -28,11 +28,9 @@
   ],
   "callbacks":[
     {
-      "name": "ariaLabelCallback",
       "function" : "function ariaLabelCallback(links) {return links.map((e) => {let res = e.attributes.getNamedItem('aria-label')?.value; return res !== undefined ? res : '';})}"
     },
     {
-      "name" : "innerHtmlCallback",
       "function" : "function innerHtmlCallback(links){return links.map((e) => e.innerHTML)}"
     }
   ]
