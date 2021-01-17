@@ -8,7 +8,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node out/index.js",
-    "lint": "eslint src/ --ext .ts"
+    "lint": "eslint src/ --ext .ts",
+    "pkg": "pkg --out-path build\\ -t node14-win-x64 out\\index.js"
   },
   "dependencies": {
     "@types/fs-extra": "^9.0.6",
