@@ -68,7 +68,7 @@ export interface IScraperProps {
 /**
  * Interface representing the result of a job
  */
-interface IResultProps {
+export interface IResultProps {
   /**
    * Name of the job that was finished
    */
@@ -111,9 +111,9 @@ export class Scraper {
   /**
    * Scrape all the jobs inside props
    */
-  async scrapeAllJobs() {
+  async scrapeAllJobs(): Promise<IResultProps[] | null> {
     if (this.props.browser === undefined || this.props.newpage === undefined) {
-      return
+      return null
     }
 
     let page =
@@ -128,7 +128,10 @@ export class Scraper {
       return [
         {
           name: 'error',
-          result: ['url:' + this.props.url, response?.statusText()]
+          result: [
+            'url:' + this.props.url,
+            response?.statusText() ? response?.statusText() : ''
+          ]
         }
       ]
     }
