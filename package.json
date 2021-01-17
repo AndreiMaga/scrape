@@ -5,11 +5,12 @@
   "main": "out/index.js",
   "author": "AndreiMaga",
   "license": "MIT",
+  "bin": "out\\index.js",
   "scripts": {
     "build": "tsc",
     "start": "node out/index.js",
     "lint": "eslint src/ --ext .ts",
-    "pkg": "pkg -t node14-win-x64 out\\index.js"
+    "pkg": "pkg -t node14-win-x64 package.json"
   },
   "dependencies": {
     "@types/fs-extra": "^9.0.6",

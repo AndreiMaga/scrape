@@ -3,11 +3,22 @@
 Scrape is a simple tool that will scrape any website (without login at the moment) just by using a [config](scrapingConfigs/books.toscrape.json) for that website.
 
 ## Usage
+
+Without pkg
+
 ```bash
 $ git clone https://github.com/AndreiMaga/scrape.git
 $ cd scrape
-$ yarn install
+$ yarn
 $ yarn start
+```
+
+With pkg
+```bash
+$ git clone https://github.com/AndreiMaga/scrape.git
+$ cd scrape
+$ yarn
+$ yarn pkg # this will create scrape.exe, use that to run the scraper
 ```
 
 This will run the configs inside [scrapingConfigs](scrapingConfigs/). If you want to add another one, just add a config file inside the directory with the schema below.  
