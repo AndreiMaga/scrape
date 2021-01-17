@@ -15,7 +15,7 @@ This will run the configs inside [scrapingConfigs](scrapingConfigs/). If you wan
 
 
 ## Config file
-An short example can be found [here](scrapingConfigs/books.toscrape.json) or a more complex one [here](scrapingConfigs/youtube.json).
+A short example can be found [here](scrapingConfigs/books.toscrape.json) or a more complex one [here](scrapingConfigs/youtube.json).
 
 ## Schema
 
