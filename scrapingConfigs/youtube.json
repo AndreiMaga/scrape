@@ -28,10 +28,10 @@
   ],
   "callbacks":[
     {
-      "function" : "function ariaLabelCallback(links) {return links.map((e) => {let res = e.attributes.getNamedItem('aria-label')?.value; return res !== undefined ? res : '';})}"
+      "function" : "function ariaLabelCallback(elements) {return elements.map((e) => {let res = e.attributes.getNamedItem('aria-label')?.value; return res !== undefined ? res : '';})}"
     },
     {
-      "function" : "function innerHtmlCallback(links){return links.map((e) => e.innerHTML)}"
+      "function" : "function innerHtmlCallback(elements){return elements.map((e) => e.innerHTML)}"
     }
   ]
 }

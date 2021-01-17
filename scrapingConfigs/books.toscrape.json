@@ -2,7 +2,7 @@
   "url": "https://books.toscrape.com",
   "callbacks": [
     {
-      "function": "function callback(links){return links.filter((link) => link?.querySelector('.instock.availability > i')?.textContent !== 'In stock').map((el) => (el?.querySelector('h3 > a'))?.href)}"
+      "function": "function callback(elements){return elements.filter((link) => link?.querySelector('.instock.availability > i')?.textContent !== 'In stock').map((el) => (el?.querySelector('h3 > a'))?.href)}"
     }
   ],
   "jobs": [

@@ -30,7 +30,7 @@ interface IJobProps {
  */
 interface ICallbackProps {
   /**
-   * String representing javascript funtion with the signature (links: Element[]) : string[]
+   * String representing javascript funtion with the signature (elements: Element[]) : string[]
    */
   function: string
 }
@@ -156,11 +156,11 @@ export class Scraper {
     page: Page
   ): Promise<string[] | undefined> {
     await page.waitForSelector(job.waitForSelector)
-    let urls = await page.$$eval(
+    let result = await page.$$eval(
       job.evalSelector,
-      <(links: Element[]) => string[]>eval(job.eval_callback)
+      <(elements: Element[]) => string[]>eval(job.eval_callback)
     )
 
-    return urls
+    return result
   }
 }

@@ -36,10 +36,10 @@
           ],
           "callbacks": [
               {
-                  "function": "function ariaLabelCallback(links) {return links.map((e) => {let res = e.attributes.getNamedItem('aria-label')?.value; return res !== undefined ? res : '';})}"
+                  "function": "function ariaLabelCallback(elements) {return elements.map((e) => {let res = e.attributes.getNamedItem('aria-label')?.value; return res !== undefined ? res : '';})}"
               },
               {
-                  "function": "function innerHtmlCallback(links){return links.map((e) => e.innerHTML)}"
+                  "function": "function innerHtmlCallback(elements){return elements.map((e) => e.innerHTML)}"
               }
           ]
       }
@@ -162,10 +162,10 @@
           "examples": [
               [
                   {
-                      "function": "function ariaLabelCallback(links) {return links.map((e) => {let res = e.attributes.getNamedItem('aria-label')?.value; return res !== undefined ? res : '';})}"
+                      "function": "function ariaLabelCallback(elements) {return elements.map((e) => {let res = e.attributes.getNamedItem('aria-label')?.value; return res !== undefined ? res : '';})}"
                   },
                   {
-                      "function": "function innerHtmlCallback(links){return links.map((e) => e.innerHTML)}"
+                      "function": "function innerHtmlCallback(elements){return elements.map((e) => e.innerHTML)}"
                   }
               ]
           ],
@@ -181,7 +181,7 @@
                       "default": {},
                       "examples": [
                           {
-                              "function": "function ariaLabelCallback(links) {return links.map((e) => {let res = e.attributes.getNamedItem('aria-label')?.value; return res !== undefined ? res : '';})}"
+                              "function": "function ariaLabelCallback(elements) {return elements.map((e) => {let res = e.attributes.getNamedItem('aria-label')?.value; return res !== undefined ? res : '';})}"
                           }
                       ],
                       "required": [
@@ -192,10 +192,10 @@
                               "$id": "#/properties/callbacks/items/anyOf/0/properties/function",
                               "type": "string",
                               "title": "The function schema",
-                              "description": "Javascript function with the signature (links: Element[]): string[].",
+                              "description": "Javascript function with the signature (elements: Element[]): string[].",
                               "default": "",
                               "examples": [
-                                  "function ariaLabelCallback(links) {return links.map((e) => {let res = e.attributes.getNamedItem('aria-label')?.value; return res !== undefined ? res : '';})}"
+                                  "function ariaLabelCallback(elements) {return elements.map((e) => {let res = e.attributes.getNamedItem('aria-label')?.value; return res !== undefined ? res : '';})}"
                               ]
                           }
                       },
