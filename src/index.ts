@@ -23,10 +23,24 @@ if (existsSync(ignoreConfig)) {
 }
 
 findBrowser().then((browserPath) => {
-  if (browserPath === null) return
+  if (browserPath === null) {
+    console.error(
+      'Could not locate Chrome or Firefox, please install one of them.'
+    )
+    return
+  }
 
   startBrowser(browserPath).then((browser) => {
     readdir(scrapingConfigsDirectory, async (err, files) => {
+      if (err !== null) {
+        console.error(
+          'Something happened, could not read',
+          scrapingConfigsDirectory
+        )
+        browser.close()
+        return
+      }
+
       let result: IResultProps[] = []
       await Promise.all(
         files.map(async (files, index) => {
