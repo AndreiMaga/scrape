@@ -1,0 +1,16 @@
+{
+  "url": "https://efortuna.ro/",
+  "jobs": [
+    {
+      "name": "efortuna",
+      "waitForSelector": "#top-bets-tab-0",
+      "evalSelector": "#top-bets-tab-0 > div > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(1)",
+      "eval_callback": "efortunaCallback"
+    }
+  ],
+  "callbacks": [
+    {
+      "function" : "function efortunaCallback(elements) {return elements.map((e) => {return JSON.stringify({'teams': e.children[0].children[0].children[0].innerHTML,'odds1': e.children[1].children[0].children[0].innerHTML,'oddsx': e.children[2].children[0].children[0].innerHTML,'odds2': e.children[3].children[0].children[0].innerHTML,'odds1x': e.children[4].children[0].children[0].innerHTML,'oddsx2': e.children[5].children[0].children[0].innerHTML,'odds12': e.children[6].children[0].children[0].innerHTML})})}      "
+    }
+  ]
+}
