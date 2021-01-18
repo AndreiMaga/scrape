@@ -1,6 +1,7 @@
 import { IResultProps, IScraperProps, Scraper } from './scraper'
 import { readdir, readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs'
 import { findBrowser, startBrowser } from './browser'
+import { join } from 'path'
 
 const scrapingConfigsDirectory = 'scrapingConfigs'
 const outputDirectory = 'results'
@@ -30,7 +31,7 @@ findBrowser().then((browserPath) => {
       await Promise.all(
         files.map(async (files, index) => {
           let props: IScraperProps = JSON.parse(
-            readFileSync(scrapingConfigsDirectory + '/' + files, 'utf-8')
+            readFileSync(join(scrapingConfigsDirectory, files), 'utf-8')
           )
           if (ignored.urls.includes(props.url)) return
 
@@ -51,7 +52,7 @@ findBrowser().then((browserPath) => {
         })
       )
       writeFileSync(
-        outputDirectory + '/' + fileName + '.json',
+        join(outputDirectory, fileName + '.json'),
         JSON.stringify(result, undefined, 2)
       )
 
