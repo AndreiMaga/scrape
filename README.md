@@ -9,7 +9,7 @@ Without pkg
 ```bash
 $ git clone https://github.com/AndreiMaga/scrape.git
 $ cd scrape
-$ yarn
+$ yarn && yarn build
 $ yarn start
 ```
 
@@ -17,7 +17,7 @@ With pkg
 ```bash
 $ git clone https://github.com/AndreiMaga/scrape.git
 $ cd scrape
-$ yarn
+$ yarn && yarn build
 $ yarn pkg # this will create scrape.exe, use that to run the scraper
 ```
 
