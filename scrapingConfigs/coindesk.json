@@ -1,0 +1,16 @@
+{
+  "url": "https://www.coindesk.com/price/bitcoin",
+  "jobs": [
+    {
+      "name": "bitcoin",
+      "waitForSelector": ".price-large",
+      "evalSelector": ".price-large",
+      "eval_callback": "bitcoinCallback"
+    }
+  ],
+  "callbacks": [
+    {
+      "function" : "function bitcoinCallback(elements){return elements.map((e) => e.innerHTML.split('>')[2])}"
+    }
+  ]
+}
