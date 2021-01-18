@@ -63,6 +63,11 @@ export interface IScraperProps {
    * Should the browser open a new page
    */
   newpage?: boolean
+
+  /**
+   * If it's truthy, the page will attempt to click on this selector
+   */
+  click?: string
 }
 
 /**
@@ -134,6 +139,10 @@ export class Scraper {
           ]
         }
       ]
+    }
+
+    if (this.props.click) {
+      await page.click(this.props.click)
     }
 
     await Promise.all(

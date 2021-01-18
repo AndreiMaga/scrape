@@ -1,0 +1,18 @@
+{
+  "url": "https://efortuna.ro/",
+  "click": "#top-bets-navs > li:nth-child(3) > a:nth-child(1)",
+  "jobs": [
+    {
+      "name": "efortuna",
+      "waitForSelector": "#top-bets-tab-0",
+      "evalSelector": "html.ui-svg.ui-localstorage.ui-sessionstorage.ui-opacity.ui-rgba.ui-history.ui-datauri body.fortuna div.ui-page div#main-container.ui-main-container div#middle-area div.ui-column-main div#main-content.ui-column-main-inner div#top-bets-box.top-bets div.tab-content div#top-bets-tab-2.tab-pane.active div.market-ids div.markets-list div.events-table-box table.table.events-table.tablesorter.tablesorter-default tbody tr.tablesorter-hasChildRow",
+      "eval_callback": "efortunaCallback"
+    }
+  ],
+  "callbacks": [
+    {
+      "function" : "function efortunaCallback(elements) {return elements.map((e) => {return JSON.stringify({'teams': e.children[0].children[0].children[0].innerHTML,'odds1': e.children[1].children[0].children[0].innerHTML,'oddsx': e.children[2].children[0].children[0].innerHTML,'odds2': e.children[3].children[0].children[0].innerHTML,'odds1x': e.children[4].children[0].children[0].innerHTML,'oddsx2': e.children[5].children[0].children[0].innerHTML,'odds12': e.children[6].children[0].children[0].innerHTML})})}      "
+    }
+  ]
+}
+
