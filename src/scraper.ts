@@ -67,7 +67,7 @@ export interface IScraperProps {
   /**
    * If it's truthy, the page will attempt to click on this selector
    */
-  click?: string
+  click?: string[]
 }
 
 /**
@@ -142,7 +142,9 @@ export class Scraper {
     }
 
     if (this.props.click) {
-      await page.click(this.props.click)
+      for (let i = 0; i < this.props.click.length; i++) {
+        await page.click(this.props.click[i])
+      }
     }
 
     await Promise.all(

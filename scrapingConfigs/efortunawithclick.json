@@ -1,6 +1,6 @@
 {
   "url": "https://efortuna.ro/",
-  "click": "#top-bets-navs > li:nth-child(3) > a:nth-child(1)",
+  "click": ["#top-bets-navs > li:nth-child(3) > a:nth-child(1)"],
   "jobs": [
     {
       "name": "efortuna",
