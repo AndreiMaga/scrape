@@ -1,0 +1,8 @@
+{
+  "timer": 0.5,
+  "ignoredurls":[
+    "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "https://books.toscrape.com",
+    "https://efortuna.ro/"
+  ] 
+}

@@ -1,76 +1,105 @@
 import { IResultProps, IScraperProps, Scraper } from './scraper'
-import { readdir, readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs'
+import {
+  appendFileSync,
+  readdir,
+  readFileSync,
+  writeFileSync,
+  mkdirSync,
+  existsSync
+} from 'fs'
 import { findBrowser, startBrowser } from './browser'
 import { join } from 'path'
 
 const scrapingConfigsDirectory = 'scrapingConfigs'
 const outputDirectory = 'results'
-const ignoreConfig = 'ignore.json'
-const fileName = new Date().getTime().toString()
+const configFile = 'config.json'
+const registry = 'registry.txt'
 
-interface IIgnoredUrls {
-  urls: string[]
+interface IConfig {
+  /**
+   * Time to wait between each pass, in minutes
+   */
+  timer?: number
+
+  /**
+   * The urls to be ignored with each pass
+   */
+  ignoredurls?: string[]
 }
 
 if (!existsSync(outputDirectory)) {
   mkdirSync(outputDirectory)
 }
 
-let ignored: IIgnoredUrls = { urls: [] }
+let config: IConfig = { ignoredurls: [] }
 
-if (existsSync(ignoreConfig)) {
-  ignored = JSON.parse(readFileSync(ignoreConfig, 'utf-8'))
+if (existsSync(configFile)) {
+  config = JSON.parse(readFileSync(configFile, 'utf-8'))
 }
 
-findBrowser().then((browserPath) => {
-  if (browserPath === null) {
-    console.error(
-      'Could not locate Chrome or Firefox, please install one of them.'
-    )
-    return
-  }
+if (config.timer) {
+  main()
+  setInterval(main, config.timer * 60000)
+} else {
+  main()
+}
 
-  startBrowser(browserPath).then((browser) => {
-    readdir(scrapingConfigsDirectory, async (err, files) => {
-      if (err !== null) {
-        console.error(
-          'Something happened, could not read',
-          scrapingConfigsDirectory
-        )
-        browser.close()
-        return
-      }
+function main() {
+  let fileName = new Date().getTime().toString()
 
-      let result: IResultProps[] = []
-      await Promise.all(
-        files.map(async (files, index) => {
-          let props: IScraperProps = JSON.parse(
-            readFileSync(join(scrapingConfigsDirectory, files), 'utf-8')
+  findBrowser().then((browserPath) => {
+    if (browserPath === null) {
+      console.error(
+        'Could not locate Chrome or Firefox, please install one of them.'
+      )
+      return
+    }
+
+    startBrowser(browserPath).then((browser) => {
+      readdir(scrapingConfigsDirectory, async (err, files) => {
+        if (err !== null) {
+          console.error(
+            'Something happened, could not read',
+            scrapingConfigsDirectory
           )
-          if (ignored.urls.includes(props.url)) return
+          browser.close()
+          return
+        }
 
-          props.browser = browser
-          props.newpage = index != 0
-          let res: IResultProps[] | null = await new Scraper(
-            props
-          ).scrapeAllJobs()
+        let result: IResultProps[] = []
+        await Promise.all(
+          files.map(async (files, index) => {
+            let props: IScraperProps = JSON.parse(
+              readFileSync(join(scrapingConfigsDirectory, files), 'utf-8')
+            )
+            if (config.ignoredurls && config.ignoredurls.includes(props.url))
+              return
 
-          if (res === undefined || res === null) {
-            return
-          }
+            props.browser = browser
+            props.newpage = index != 0
+            let res: IResultProps[] | null = await new Scraper(
+              props
+            ).scrapeAllJobs()
 
-          res.forEach((e) => {
-            console.log(e)
-            result.push(e)
+            if (res === undefined || res === null) {
+              return
+            }
+
+            res.forEach((e) => {
+              console.log(e)
+              result.push(e)
+            })
           })
-        })
-      )
-      writeFileSync(
-        join(outputDirectory, fileName + '.json'),
-        JSON.stringify(result, undefined, 2)
-      )
+        )
+        writeFileSync(
+          join(outputDirectory, fileName + '.json'),
+          JSON.stringify(result, undefined, 2)
+        )
 
-      browser.close()
+        appendFileSync(join(outputDirectory, registry), fileName + '.json\n')
+
+        browser.close()
+      })
     })
   })
-})
+}
