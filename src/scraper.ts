@@ -159,11 +159,19 @@ export class Scraper {
     page: Page
   ): Promise<string[] | undefined> {
     await page.waitForSelector(job.waitForSelector)
-    let result = await page.$$eval(
+    return await page.$$eval(
       job.evalSelector,
-      <(elements: Element[]) => string[]>eval(job.eval_callback)
+      job.eval_callback
+        ? <(elements: Element[]) => string[]>eval(job.eval_callback)
+        : this.innerHtmlCallback
     )
+  }
 
-    return result
+  /**
+   * Default callback if eval_callback was not defined
+   * @param elements Elements scraped
+   */
+  private innerHtmlCallback(elements: Element[]): string[] {
+    return elements.map((e) => e.innerHTML)
   }
 }

@@ -11,7 +11,7 @@
       "name": "views",
       "waitForSelector": ".view-count",
       "evalSelector": ".view-count",
-      "eval_callback": "innerHtmlCallback"
+      "eval_callback": ""
     },
     {
       "name": "likes",
@@ -23,15 +23,12 @@
       "name": "title",
       "waitForSelector": "yt-formatted-string.ytd-video-primary-info-renderer:nth-child(1)",
       "evalSelector": "yt-formatted-string.ytd-video-primary-info-renderer:nth-child(1)",
-      "eval_callback": "innerHtmlCallback"
+      "eval_callback": ""
     }
   ],
   "callbacks":[
     {
       "function" : "function ariaLabelCallback(elements) {return elements.map((e) => {let res = e.attributes.getNamedItem('aria-label')?.value; return res !== undefined ? res : '';})}"
-    },
-    {
-      "function" : "function innerHtmlCallback(elements){return elements.map((e) => e.innerHTML)}"
     }
   ]
 }
